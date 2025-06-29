@@ -1,0 +1,27 @@
+{
+  "name": "medqueue",
+  "version": "1.0.0",
+  "description": "Healthcare Queue Management System for Rwanda",
+  "scripts": {
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\"",
+    "install-deps": "cd backend && npm install && cd ../frontend && npm install",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && npm start",
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hasby-umutoniwabo/medqueue.git"
+  },
+  "keywords": [
+    "healthcare",
+    "queue-management",
+    "rwanda"
+  ],
+  "author": "Team Devnest",
+  "license": "MIT"
+}
