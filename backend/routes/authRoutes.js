@@ -1,46 +1,35 @@
-// const express = require('express');
-// const authController = require('../controllers/authController');
-// const { validateSignup, validateLogin, validateForgotPassword, validateResetPassword, validateUpdatePassword } = require('../middleware/validation');
-
-// const router = express.Router();
-
-// // Public routes (no authentication required)
-// router.post('/signup', validateSignup, authController.signup);
-// router.post('/login', validateLogin, authController.login);
-// router.post('/refresh-token', authController.refreshToken);
-// router.post('/forgot-password', validateForgotPassword, authController.forgotPassword);
-// router.patch('/reset-password/:token', validateResetPassword, authController.resetPassword);
-// router.patch('/verify-email/:token', authController.verifyEmail);
-
-// // Protected routes (authentication required)
-// router.use(authController.protect); // All routes after this middleware are protected
-
-// router.post('/logout', authController.logout);
-// router.get('/me', authController.getMe);
-// router.patch('/update-me', authController.updateMe);
-// router.patch('/update-password', validateUpdatePassword, authController.updatePassword);
-// router.delete('/delete-me', authController.deleteMe);
-
-// module.exports = router;
-
 const express = require('express');
-const router = express.Router();
-
-// Import the auth controller
 const authController = require('../controllers/authController');
+const { protect, restrictTo } = require('../middleware/auth');
 
-// Test route to verify the controller is loading
-router.get('/test', (req, res) => {
-  res.json({ message: 'Auth routes are working!' });
-});
+const router = express.Router();
 
 // Public routes (no authentication required)
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
+router.post('/refresh-token', authController.refreshToken);
+router.post('/forgot-password', authController.forgotPassword);
+router.patch('/reset-password/:token', authController.resetPassword);
 
-// Protected routes would go here (after adding authentication middleware)
-// router.use(authController.protect); // This line was causing the error
-// router.get('/me', authController.getMe);
-// router.post('/logout', authController.logout);
+// Test route
+router.get('/test', (req, res) => {
+  res.json({ message: 'Auth routes are working!' });
+});
+
+// Protected routes (authentication required)
+router.use(protect); // All routes after this middleware are protected
+
+router.post('/logout', authController.logout);
+router.get('/me', authController.getMe);
+router.patch('/update-me', authController.updateMe);
+router.patch('/update-password', authController.updatePassword);
+router.delete('/delete-me', authController.deleteMe);
+
+// Admin only routes
+router.use(restrictTo('admin')); // Only admin can access these routes
+
+router.get('/users', authController.getAllUsers);
+router.get('/users/:id', authController.getUserById);
+router.get('/stats', authController.getUserStats);
 
 module.exports = router;
