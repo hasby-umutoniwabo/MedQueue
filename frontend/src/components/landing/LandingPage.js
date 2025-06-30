@@ -120,7 +120,7 @@ const LandingPage = ({ onLoginClick, onSignupClick }) => {
                                     className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all shadow-lg transform hover:scale-105"
                                 >
                                     <i className="fas fa-rocket mr-2"></i>
-                                    Start Free Trial
+                                    Get Started
                                 </button>
                                 <button 
                                     onClick={() => scrollToSection('features')}

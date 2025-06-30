@@ -577,7 +577,15 @@ const resetPassword = async (req, res) => {
 // @access  Private
 const deleteMe = async (req, res) => {
   try {
-    await User.findByIdAndUpdate(req.user.userId, { isActive: false });
+    // Actually delete the user from the database
+    const deletedUser = await User.findByIdAndDelete(req.user.userId);
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
 
     res.status(204).json({
       success: true,
