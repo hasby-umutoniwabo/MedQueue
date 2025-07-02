@@ -16,9 +16,13 @@ const socketIo = require('socket.io');
 
 require('dotenv').config();
 
+const connectCloudinary = require('./config/cloudinary');
+
 
 
 const app = express();
+
+connectCloudinary();
 
 const server = http.createServer(app);
 
@@ -125,8 +129,12 @@ app.get('/api/health', (req, res) => {
 // Import and use routes
 
 const authRoutes = require('./routes/authRoutes');
+const clinicRouter = require('./routes/clinicRoutes');
+const doctorRouter = require('./routes/doctorRoutes');
 
 app.use('/api/auth', authRoutes);
+app.use('/api/clinics', clinicRouter);
+app.use('/api/doctors', doctorRouter);
 
 
 
